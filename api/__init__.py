@@ -1,6 +1,6 @@
 import requests
 import xmltodict
-from validation import Cep, CdServico, DtCalculo, VlPeso, CdFormato, VlDimensao, VlBool, VlDeclarado, Required
+from api.validation import Cep, CdServico, DtCalculo, VlPeso, CdFormato, VlDimensao, VlBool, VlDeclarado, Required
 
 class Correios:
 
