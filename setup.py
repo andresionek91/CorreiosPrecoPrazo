@@ -4,7 +4,6 @@ setup(
     name='CorreiosPrecoPrazo',
     version='1.0',
     py_modules=["api"],
-    #packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     install_requires=['xmltodict', 'requests'],
     keywords='correios preços prazos webservice correio api preço prazo',  # Optional
     url='',
