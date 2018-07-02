@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='prepra_correios',
+    name='CorreiosPrecoPrazo',
     version='1.0',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     install_requires=['xmltodict', 'requests'],
