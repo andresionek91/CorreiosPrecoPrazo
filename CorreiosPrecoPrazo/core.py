@@ -1,8 +1,10 @@
 import requests
-import xmltodict
-from CorreiosPrecoPrazo.validation import Cep, CdServico, DtCalculo, VlPeso, CdFormato, VlDimensao, VlBool, VlDeclarado, Required
+import xmltodict, json
+from CorreiosPrecoPrazo.validation import Cep, CdServico, DtCalculo, VlPeso, CdFormato, VlDimensao, \
+    VlBool, VlDeclarado, Required
 
 class Correios:
+
 
     def __init__(self, cod_administrativo='', senha=''):
         self.headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': '0'}
@@ -14,7 +16,8 @@ class Correios:
                          'CalcPrecoData': '/calculador/CalcPrecoPrazo.asmx/CalcPrecoData',
                          'CalcPrecoPrazo': '/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo',
                          'CalcPrecoPrazoData': '/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazoData',
-                         'CalcPrecoPrazoRestricao': '/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazoRestricao'
+                         'CalcPrecoPrazoRestricao': '/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazoRestricao',
+                         'ListaServicos': '/calculador/CalcPrecoPrazo.asmx/ListaServicos'
                          }
 
         # self.servico = {'SEDEX': '04162',
@@ -31,7 +34,10 @@ class Correios:
     def get_response(self, url, payload):
         self.headers['Content-Length'] = str(len(payload))
         response = requests.post(url, data=payload, headers=self.headers)
-        response = xmltodict.parse(response.text)['cResultado']['Servicos']['cServico']
+        try:
+            response = xmltodict.parse(response.text)['cResultado']['Servicos']['cServico']
+        except KeyError:
+            response = xmltodict.parse(response.text)['cResultadoServicos']['ServicosCalculo']['cServicosCalculo']
 
         return response
 
@@ -74,5 +80,10 @@ class Correios:
         validated_input = Required(method, input).value()
         url = self.get_url(method)
         payload = self.build_payload(validated_input)
-        print(payload)
+
         return self.get_response(url, payload)
+
+    def list_services(self):
+        url = self.get_url('ListaServicos')
+        return json.dumps(self.get_response(url, ''), indent=4)
+
