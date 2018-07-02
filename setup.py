@@ -5,7 +5,7 @@ setup(
     version='1.0',
     packages=find_packages(),
     install_requires=['xmltodict', 'requests'],
-    keywords='correios preços prazos webservice correio api preço prazo',  # Optional
+    keywords='correios preços prazos webservice correio api preço prazo',
     url='https://github.com/andresionek91/CorreiosPrecoPrazo',
     license='MIT',
     classifiers=['Development Status :: 3 - Alpha', 'Programming Language :: Python :: 3.6'],
