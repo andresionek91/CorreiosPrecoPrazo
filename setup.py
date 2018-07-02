@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup,find_packages
 
 setup(
     name='CorreiosPrecoPrazo',
     version='1.0',
-    packages=['api'],
+    packages=find_packages(),
     install_requires=['xmltodict', 'requests'],
     keywords='correios preços prazos webservice correio api preço prazo',  # Optional
     url='https://github.com/andresionek91/CorreiosPrecoPrazo',
