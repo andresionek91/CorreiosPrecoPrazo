@@ -27,31 +27,32 @@ Usage sample
 
     >>> from CorreiosPrecoPrazo.core import Correios
     >>> consulta = Correios()
-    >>> consulta.calculate('CalcPrecoPrazo',
-                            {'cd_servico': '04669',
-                            'cep_origem': '80250220',
-                            'cep_destino': '01023302',
-                            'vl_peso': 1500,
-                            'cd_formato': 'caixa',
-                            'vl_largura': 20,
-                            'vl_altura': 20,
-                            'vl_comprimento': 20,
-                            'valor_declarado': 180,
-                            })
+    >>> r = consulta.calculate('CalcPrecoPrazo',
+                                {'cd_servico': '04014',
+                                'cep_origem': '01311-000',
+                                'cep_destino': '70083-900',
+                                'vl_peso': 1550,
+                                'cd_formato': 'caixa',
+                                'vl_largura': 24,
+                                'vl_altura': 23,
+                                'vl_comprimento': 20,
+                                'valor_declarado': 189.90,
+                                })
+    >>> print(json.dumps(r, indent=4)) 
                             
     {
-    "Codigo": "4669",
-    "Valor": "19,06",
-    "PrazoEntrega": "6",
-    "ValorMaoPropria": "0,00",
-    "ValorAvisoRecebimento": "0,00",
-    "ValorValorDeclarado": "1,13",
-    "EntregaDomiciliar": "S",
-    "EntregaSabado": "N",
-    "Erro": "0",
-    "MsgErro": null,
-    "ValorSemAdicionais": "17,93",
-    "obsFim": null
+        "Codigo": "4014",
+        "Valor": "40,47",
+        "PrazoEntrega": "1",
+        "ValorMaoPropria": "0,00",
+        "ValorAvisoRecebimento": "0,00",
+        "ValorValorDeclarado": "2,57",
+        "EntregaDomiciliar": "S",
+        "EntregaSabado": "S",
+        "Erro": "0",
+        "MsgErro": null,
+        "ValorSemAdicionais": "37,90",
+        "obsFim": null
     }
 
 
@@ -86,7 +87,8 @@ Get the service numbers by seeing wich services are currently available for use.
 
     >>> from CorreiosPrecoPrazo.core import Correios
     >>> consulta = Correios()
-    >>> consulta.list_services()
+    >>> s = consulta.list_services()
+    >>> print(json.dumps(s, indent=4))
     
     [
     {
@@ -139,7 +141,7 @@ Destination zip code. Formats that are acceptable:
 
 vl_peso
 ---------------
-Weight value. **Must be in gram**.
+Integer. Weight value. **Must be in gram**.
 
 cd_formato
 --------------
@@ -151,7 +153,7 @@ Package format, either of the values bellow are acceptable:
 
 vl_comprimento
 -------------
-Length value. **Must be in cm**.
+Integer. Length value. **Must be in cm**.
 
 *Required for:*
 * Boxes
@@ -159,7 +161,7 @@ Length value. **Must be in cm**.
 
 vl_largura
 -----------
-Width value. **Must be in cm**.
+Integer. Width value. **Must be in cm**.
 
 *Required for:*
 * Boxes
@@ -167,29 +169,29 @@ Width value. **Must be in cm**.
 
 vl_altura
 ----------
-Height value. **Must be in cm**.
+Integer. Height value. **Must be in cm**.
 
 *Required for:*
 * Boxes
 
 vl_diametro
 --------------
-Diameter value. **Must be in cm**.
+Integer. Diameter value. **Must be in cm**.
 
 *Required for:*
 * Cilinders/Prims
 
-cd_mao_propria *Optional*
+cd_mao_propria
 --------------
-Boolean. If you want a quote with Mão Própria service.
+*Optional* Boolean. If you want a quote with Mão Própria service.
 
-cd_aviso_recebimento *Optional*
+cd_aviso_recebimento
 -------------------
-Boolean. If you want a quote with Aviso de Recebimento service.
+*Optional* Boolean. If you want a quote with Aviso de Recebimento service.
 
-valor_declarado *Optional*
+valor_declarado 
 ----------------
-Decimal. If you want a quote with insurance service, pass the value in BRL.
+*Optional* Decimal. If you want a quote with insurance service, pass the value in BRL.
 
 dt_calculo
 ------------

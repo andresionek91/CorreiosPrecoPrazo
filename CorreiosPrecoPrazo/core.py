@@ -85,5 +85,20 @@ class Correios:
 
     def list_services(self):
         url = self.get_url('ListaServicos')
-        return json.dumps(self.get_response(url, ''), indent=4)
+        return self.get_response(url, '')
 
+
+consulta = Correios()
+a = consulta.calculate('CalcPrecoPrazo',
+                   {'cd_servico': '04014',
+                            'cep_origem': '01311-000',
+                            'cep_destino': '70083-900',
+                            'vl_peso': 1550,
+                            'cd_formato': 'caixa',
+                            'vl_largura': 24,
+                            'vl_altura': 23,
+                            'vl_comprimento': 20,
+                            'valor_declarado': 189.90,
+                            })
+
+print(json.dumps(a, indent=4))
