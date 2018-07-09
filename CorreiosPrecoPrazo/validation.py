@@ -130,6 +130,9 @@ class VlDeclarado:
         except ValueError:
             raise ValueError('O valor declarado deve ser inteiro ou decimal e em reais.')
 
+        if self.vl_valor_declarado < 18.5:
+            self.vl_valor_declarado = 18.5
+
 
     def value(self):
         return str(self.vl_valor_declarado)
