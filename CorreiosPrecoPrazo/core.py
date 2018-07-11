@@ -2,9 +2,11 @@ import requests
 import xmltodict, json
 from CorreiosPrecoPrazo.validation import Cep, CdServico, DtCalculo, VlPeso, CdFormato, VlDimensao, \
     VlBool, VlDeclarado, Required
+from xml.parsers.expat import ExpatError
+import time
+
 
 class Correios:
-
 
     def __init__(self, cod_administrativo='', senha=''):
         self.headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': '0'}
@@ -20,26 +22,35 @@ class Correios:
                          'ListaServicos': '/calculador/CalcPrecoPrazo.asmx/ListaServicos'
                          }
 
-        # self.servico = {'SEDEX': '04162',
-        #                 'PAC': '04669'}
 
         self.cd_empresa = str(cod_administrativo)
         self.ds_senha = str(senha)
 
-
     def get_url(self, method):
         return self.host + self.endpoint.get(method)
 
-
     def get_response(self, url, payload):
         self.headers['Content-Length'] = str(len(payload))
-        response = requests.post(url, data=payload, headers=self.headers)
+
+        status_code = 0
+        i = 0
+        while status_code != 200 and i < 10:
+            response = requests.post(url, data=payload, headers=self.headers)
+            status_code = response.status_code
+            i += 1
+
+        if i >= 10 and status_code != 200:
+            raise TimeoutError ('Aparentemente o webservice dos Correios está indisponível no momento'
+                                'Tente novamente mais tarde.')
         try:
             response = xmltodict.parse(response.text)['cResultado']['Servicos']['cServico']
+            return response
         except KeyError:
             response = xmltodict.parse(response.text)['cResultadoServicos']['ServicosCalculo']['cServicosCalculo']
+            return response
+        except ExpatError:
+            raise ExpatError ('Não foi possível parsear o XML de resposta do webservice dos Correios')
 
-        return response
 
     def build_payload(self, input):
 
@@ -86,3 +97,18 @@ class Correios:
     def list_services(self):
         url = self.get_url('ListaServicos')
         return self.get_response(url, '')
+
+
+consulta = Correios()
+r = consulta.calculate('CalcPrecoPrazo',
+                            {'cd_servico': '04014',
+                             'cep_origem': '01311-000',
+                             'cep_destino': '70083-900',
+                             'vl_peso': 1550,
+                             'cd_formato': 'caixa',
+                             'vl_largura': 24,
+                             'vl_altura': 23,
+                             'vl_comprimento': 20,
+                             'valor_declarado': 189.90,
+                             })
+print(json.dumps(r, indent=4))
