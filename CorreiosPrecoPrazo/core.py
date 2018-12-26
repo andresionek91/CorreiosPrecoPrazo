@@ -3,7 +3,6 @@ import xmltodict, json
 from CorreiosPrecoPrazo.validation import Cep, CdServico, DtCalculo, VlPeso, CdFormato, VlDimensao, \
     VlBool, VlDeclarado, Required
 from xml.parsers.expat import ExpatError
-import time
 
 
 class Correios:
@@ -74,7 +73,7 @@ class Correios:
         if input.get('vl_largura') != None:
             payload += '&nVlLargura=' + VlDimensao(input.get('vl_largura')).value()
         if input.get('vl_diametro') != None:
-            payload += '&nVlDiametro=' + VlDimensao(input.get('vl_diametro')).value()
+            payload += '&nVlDiametro=' + VlDimensao(input.get('vl_diametro'), 'diam').value()
         if input.get('cd_mao_propria') != None:
             payload += '&sCdMaoPropria=' + VlBool(input.get('cd_mao_propria')).value()
         if input.get('valor_declarado') != None:

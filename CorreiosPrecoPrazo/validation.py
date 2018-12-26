@@ -88,7 +88,7 @@ class CdFormato:
 
 class VlDimensao:
 
-    def __init__(self, dimensao):
+    def __init__(self, dimensao, tipo='lca'):
         try:
             self.vl_dimensao = float(dimensao)
         except ValueError:
@@ -98,6 +98,9 @@ class VlDimensao:
             raise ValueError('A dimensão {} do pacote deve ser inteira e em centímetros.'.format(dimensao))
         else:
             self.vl_dimensao = int(self.vl_dimensao)
+
+        if tipo == 'lca' and self.vl_dimensao < 16:
+            self.vl_dimensao = 16
 
     def value(self):
         return str(self.vl_dimensao)
@@ -130,7 +133,7 @@ class VlDeclarado:
         except ValueError:
             raise ValueError('O valor declarado deve ser inteiro ou decimal e em reais.')
 
-        if self.vl_valor_declarado < 18.5:
+        if self.vl_valor_declarado <= 18.5:
             self.vl_valor_declarado = 18.5
 
 
