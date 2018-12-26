@@ -88,7 +88,7 @@ class CdFormato:
 
 class VlDimensao:
 
-    def __init__(self, dimensao, tipo='lca'):
+    def __init__(self, dimensao, tipo):
         try:
             self.vl_dimensao = float(dimensao)
         except ValueError:
@@ -99,8 +99,14 @@ class VlDimensao:
         else:
             self.vl_dimensao = int(self.vl_dimensao)
 
-        if tipo == 'lca' and self.vl_dimensao < 16:
+        if tipo == 'comprimento' and self.vl_dimensao < 16:
             self.vl_dimensao = 16
+        elif tipo == 'largura' and self.vl_dimensao < 11:
+            self.vl_dimensao = 11
+        elif tipo == 'altura' and self.vl_dimensao < 2:
+            self.vl_dimensao = 2
+        elif tipo == 'diametro' and self.vl_dimensao < 5:
+            self.vl_dimensao = 5
 
     def value(self):
         return str(self.vl_dimensao)

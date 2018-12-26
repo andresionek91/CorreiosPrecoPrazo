@@ -67,13 +67,13 @@ class Correios:
         if input.get('cd_formato') != None:
             payload += '&nCdFormato=' + CdFormato(input.get('cd_formato')).value()
         if input.get('vl_comprimento') != None:
-            payload += '&nVlComprimento=' + VlDimensao(input.get('vl_comprimento')).value()
+            payload += '&nVlComprimento=' + VlDimensao(input.get('vl_comprimento'), 'comprimento').value()
         if input.get('vl_altura') != None:
-            payload += '&nVlAltura=' + VlDimensao(input.get('vl_altura')).value()
+            payload += '&nVlAltura=' + VlDimensao(input.get('vl_altura'), 'altura').value()
         if input.get('vl_largura') != None:
-            payload += '&nVlLargura=' + VlDimensao(input.get('vl_largura')).value()
+            payload += '&nVlLargura=' + VlDimensao(input.get('vl_largura'), 'largura').value()
         if input.get('vl_diametro') != None:
-            payload += '&nVlDiametro=' + VlDimensao(input.get('vl_diametro'), 'diam').value()
+            payload += '&nVlDiametro=' + VlDimensao(input.get('vl_diametro'), 'diametro').value()
         if input.get('cd_mao_propria') != None:
             payload += '&sCdMaoPropria=' + VlBool(input.get('cd_mao_propria')).value()
         if input.get('valor_declarado') != None:
